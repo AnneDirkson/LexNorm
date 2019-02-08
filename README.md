@@ -11,6 +11,7 @@ This pipeline takes raw text data and performs:
 - Removes URLs, email addresses and personal pronouns
 - Convert to lower-case
 - Tokenization with NLTK 
+- Remove non-English posts (conservatively) using langid [3]
 - British English to American English 
 - Normalization of generic abbreviations and slang 
 - Normalization of domain-specific (patient forum) abbreviations 
@@ -28,8 +29,9 @@ The drug normalization dictionary 'drug_normalize_dict' is an adapted version of
 References: 
 [1] G. Burnage, R.H. Baayen, R. Piepenbrock and H. van Rijn. 1990. CELEX: A Guide for Users.
 [2] A. Sarker, 2017. A customizable pipeline for social media text normalisation. Social network analysis and mining, 7, 1.
+[3] M. Liu & T. Baldwin, 2012. langid.py: An Off-the-shelf Language Identification Tool. Proceedings of the 50th annual meeting of the association of computational linguistics, p 25-30.
 
-# notes on spelling correction 
+# Notes on spelling correction 
 
 This script includes spelling correction module that uses unsupervised data to construct a list of candidates. The correction algorithm is a weighted Levenshtein distance algorithm. A decision process is used to determine if a word is a spelling mistake.
 
