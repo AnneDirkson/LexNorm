@@ -1,6 +1,8 @@
 # LexNorm
 
-Lexical normalization pipeline for medical patient forum data. This repository contains the pipeline script for Jupyter Notebook (python 3). Updated 08-02-2019. 
+Lexical normalization pipeline for medical patient forum data. This repository contains the pipeline script for Jupyter Notebook (python 3). The spelling correction module that is part of it can only be run on a Linux platform. 
+
+Updated 08-02-2019. 
 
 This pipeline includes both the DrugNorm and SpellingCorrect modules. 
 
