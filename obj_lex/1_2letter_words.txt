@@ -1,0 +1,84 @@
+rt	1781	retweet	rt
+im	1554	i'm
+u	1517	you
+bc	560	because	b.c.
+n	453	and 
+x	402	x
+ya	393	you	yes	your
+b	361	be	b
+ur	354	you're	your
+ta	322	to	ta
+w	313	with	w
+xr	245	xr
+r	226	are	r
+yo	213	your	yo	you
+hw	185	homework
+ha	178	ha	haha
+ad	162	advertisement
+da	145	the
+xx	138	xx
+id	137	i'd	id
+ms	133	menstruation	ms	miss	masters
+st	132	street	saint		
+pm	124	pm	private message
+rx	113	rx
+ah	103	ah
+em	99	them	am	
+el	97	el
+c	95	see	c
+tf	93	the fuck
+k	88	okay	k
+iv	84	i've	iv
+re	82	are	regarding	reply
+ty	77	thank you
+gi	0	gi
+ra	73	ra	research assistant
+y	72	why	y
+v	71	v	very	versus
+m	68	am	m
+b4	64	before
+gp	63	gp
+er	62	er	her	
+jk	62	just kidding
+dm	60	direct message	dm
+pt	58	patient	point	
+e	57	e
+ma	56	my	mom	
+od	50	overdose	odd	od
+um	50	i'm	um	umm
+aw	49	awe	aw
+yr	48	year	your
+mt	47	mountain	mount	mt	met	meet
+fr	44	for	fr
+nd	35	and
+tb	35	tuberculosis	tb
+hr	34	hour	human resource
+bp	33	blood pressure
+fb	32	facebook
+bs	30	bullshit
+al	28	all	al
+fa	26	for	fa	
+yu	26	you
+ap	25	ap	application
+ir	25	ir	is
+ed	21	education	ed
+hm	20	home	hmm
+ol	20	old
+cc	18	cc	credit card
+hv	18	have
+th	17	the	than
+gf	15	girlfriend
+bf	14	boyfriend
+fo	14	for
+il	14	i'll	ill
+nt	14	not	nt
+ny	13	any	new york	my
+ay	12	at	aye
+bb	12	baby
+ye	12	yes
+ab	11	ab
+bu	11	but	bu
+ig	11	ig	instagram
+ou	11	you
+sp	11	especially	spelling	sp
+wth	11	with	what the hell
