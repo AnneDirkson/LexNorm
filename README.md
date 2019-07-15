@@ -1,12 +1,6 @@
 # LexNorm
 
-Lexical normalization pipeline for medical patient forum data (Python 3). For more detail on the pipeline see: 
-
-Dirkson AR, Verberne S, Sarker A and Kraaij W (Under submission). Data-driven Lexical Normalization for Medical Social Media. Multimodal Technologies and Interaction [Text Mining in Complex Domains].
-
-Please refer to our article if you use this module.
-
-Updated 15-07-2019. 
+Lexical normalization pipeline for medical patient forum data (Python 3). 
 
 author - AR Dirkson 
 date - 15-07-2019
@@ -21,6 +15,12 @@ This pipeline takes raw text data and performs:
 - Normalization of generic abbreviations and slang 
 - Normalization of domain-specific (patient forum) abbreviations 
 - Spelling correction 
+
+For more detail on the pipeline see: 
+
+Dirkson AR, Verberne S, Sarker A and Kraaij W (Under submission). Data-driven Lexical Normalization for Medical Social Media. Multimodal Technologies and Interaction [Text Mining in Complex Domains].
+
+Please refer to our article if you use this module.
 
 # Required files: 
 Prior to running this normalizer you will need to download the tetragram.binary and trigram.binary models in the N-gram-language-models file at https://data.mendeley.com/datasets/dwr4xn8kcv/3. These models have been developed by Abeed Sarker and Graciela Gonzalez- Hernandez [1]
