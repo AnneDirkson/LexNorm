@@ -1,13 +1,15 @@
 # LexNorm
 
-Lexical normalization pipeline for medical patient forum data. This repository contains the pipeline script for Jupyter Notebook (python 3). The spelling correction module that is part of it can only be run on a Linux platform. 
+Lexical normalization pipeline for medical patient forum data (Python 3). For more detail on the pipeline see: 
 
-Updated 08-02-2019. 
+Dirkson AR, Verberne S, Sarker A and Kraaij W (Under submission). Data-driven Lexical Normalization for Medical Social Media. Multimodal Technologies and Interaction [Text Mining in Complex Domains].
 
-This pipeline includes both the DrugNorm and SpellingCorrect modules. 
+Please refer to our article if you use this module.
+
+Updated 15-07-2019. 
 
 author - AR Dirkson 
-date - 2-10-2018
+date - 15-07-2019
 
 This pipeline takes raw text data and performs: 
 - Removes URLs, email addresses and personal pronouns
@@ -15,32 +17,32 @@ This pipeline takes raw text data and performs:
 - Tokenization with NLTK 
 - Remove non-English posts (conservatively) using langid [3]
 - British English to American English 
+- Normalization of contractions
 - Normalization of generic abbreviations and slang 
 - Normalization of domain-specific (patient forum) abbreviations 
 - Spelling correction 
 
 # Required files: 
+Prior to running this normalizer you will need to download the tetragram.binary and trigram.binary models in the N-gram-language-models file at https://data.mendeley.com/datasets/dwr4xn8kcv/3. These models have been developed by Abeed Sarker and Graciela Gonzalez- Hernandez [1]
+
 The necessary in-house created abbreviations_dict is a dictionary of the domain-specific abbreviations, created based on a rare cancer forum together with a domain expert.
 
-celex_lwrd_frequencies is an adapted version of the CELEX [1] with frequencies of different word senses combined and also lowered and capitalized variants combined. You can use another generic dictionary. Due to licensing, we cannot share but our adapted CELEX can be recreated with the AdaptCelex script.
+no_slang_mod.txt, english_spellings.txt, 1_2letter_words.txt and american_spellings.txt are from Sarker et al. [2]. Can also be found at https://bitbucket.org/asarker/simplenormalizerscripts
 
-no_slang_mod.txt, english_spellings.txt and american_spellings.txt are from Sarker et al. [2]. Can also be found at https://bitbucket.org/asarker/simplenormalizerscripts
-
-The drug normalization dictionary 'drug_normalize_dict' is an adapted version of the RXNorm database (part of UMLS). All materials for creating this dictionary are under the DrugNorm repository. 
+The aspell_dict_lower is a lowered version of word list 60 of the publicly available GNU Aspell dictionary. See: http://aspell.net/
 
 References: 
-[1] G. Burnage, R.H. Baayen, R. Piepenbrock and H. van Rijn. 1990. CELEX: A Guide for Users.
+[1] A. Sarker & G. Gonzalez-Hernandez, 2017. A corpus for mining drug-related knowledge from Twitter chatter: Language models and their utilities. Data in Brief, 10.
 [2] A. Sarker, 2017. A customizable pipeline for social media text normalisation. Social network analysis and mining, 7, 1.
 [3] M. Liu & T. Baldwin, 2012. langid.py: An Off-the-shelf Language Identification Tool. Proceedings of the 50th annual meeting of the association of computational linguistics, p 25-30.
 
-# Notes on spelling correction 
+# Additional notes on spelling correction 
 
-This script includes spelling correction module that uses unsupervised data to construct a list of candidates. The correction algorithm is a weighted Levenshtein distance algorithm. A decision process is used to determine if a word is a spelling mistake.
+This script includes an unsupervised spelling correction module that uses the corpus to construct a list of plausible correction candidates based on relative corpus frequency (min 9x more frequent) and edit distance threshold (max of 0.68). If there are no plausible candidates, the token is not corrected.  The correction algorithm is a combination of relative Levenshtein distance (weight = 0.4) and the probability of the trigram occuring according to a sequential trigram model (weight = 0.6). This language model was based on health-related Twitter data and can be substituted by a domain-specific trigram model relevant to your domain. 
 
-It makes use of the CELEX generic dictionary but this can be substituted by another generic dictionary. It is only used to determine if a word should not be corrected because it is a generic word.
+A decision process is used to determine if a word is a spelling mistake. The misspelling detection makes use of the ASPELL dictionary. This can be substituted by another generic dictionary. It is only used to determine if a word should not be corrected because it is a generic word.
 
-The matrices for edit weights are included (but change the paths!) and due to licensing, CELEX is not.
+The grid used for tuning the corpus frequency multiplier threshold was [0-10] (steps of 1). 
+The grid used for the spelling mistake detection was [0.40-0.80] (steps of 0.01) for the maximum allowed relative edit distance. 
 
-The grid used for the spelling mistake detection was [0.05 - 0.15] (steps of 0.01) for relative weighted edit distance max and [2-10] (steps of 1) for relative corpus frequency multiplier. F0.5 was used as a metric. This can be re-tuned (tuning not included in this script).
-
-Note: the damlev module only works on Linux platforms and the input data needs to be tokenized
+Note: if you only use the spelling correction function of the Normalizer script, the data must be tokenized.
