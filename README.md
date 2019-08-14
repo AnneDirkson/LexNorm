@@ -32,9 +32,13 @@ no_slang_mod.txt, english_spellings.txt, 1_2letter_words.txt and american_spelli
 The aspell_dict_lower is a lowered version of word list 60 of the publicly available GNU Aspell dictionary. See: http://aspell.net/
 
 References: 
+
 [1] A. Sarker & G. Gonzalez-Hernandez, 2017. A corpus for mining drug-related knowledge from Twitter chatter: Language models and their utilities. Data in Brief, 10.
+
 [2] A. Sarker, 2017. A customizable pipeline for social media text normalisation. Social network analysis and mining, 7, 1.
+
 [3] M. Liu & T. Baldwin, 2012. langid.py: An Off-the-shelf Language Identification Tool. Proceedings of the 50th annual meeting of the association of computational linguistics, p 25-30.
+
 [4] Miftahutdinov, Z. S., Tutubalina, E. V., & Tropsha, A. E. (2017). Identifying disease-related expressions in reviews using conditional random fields. Proceedings of the International Conference Dialogue 2017. 
 
 # Additional notes on spelling correction 
