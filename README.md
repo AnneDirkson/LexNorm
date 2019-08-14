@@ -24,6 +24,7 @@ Please refer to our article if you use this module.
 
 # Required files: 
 Prior to running this normalizer you will need to download the tetragram.binary in the N-gram-language-models file at https://data.mendeley.com/datasets/dwr4xn8kcv/3. These models have been developed by Abeed Sarker and Graciela Gonzalez- Hernandez [1]. Additionally, you will need the HealthVec model developed by Miftahutdinov et al. [4] which can be downloaded at: https://github.com/dartrevan/ChemTextMining/tree/master/word2vec
+Do not forget to change the path in the LexNormNew script to the right location for these files.
 
 The necessary in-house created abbreviations_dict is a dictionary of the domain-specific abbreviations, created based on a rare cancer forum together with a domain expert.
 
