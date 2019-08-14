@@ -18,7 +18,7 @@
 # - Normalization of domain-specific (patient forum) abbreviations 
 # - Spelling correction 
 
-# In[1]:
+# In[12]:
 
 
 import pickle
@@ -35,9 +35,10 @@ import editdistance
 import kenlm
 from sklearn.metrics import recall_score, precision_score, f1_score, fbeta_score
 from nltk.tokenize.treebank import TreebankWordDetokenizer 
+from gensim.models import KeyedVectors
 
 
-# In[4]:
+# In[13]:
 
 
 class Normalizer (): 
@@ -214,8 +215,6 @@ class Normalizer ():
     def load_ngrammodel(self): 
         path = 'obj_lex\\tetragram_model.binary'
         self.model = kenlm.Model(path)
-        path2 = 'obj_lex\\trigram_model.binary'
-        self.model2 = kenlm.Model(path2)
     
     def get_parameters_ngram_model (self, word, sent): 
         i = sent.index(word)
@@ -423,29 +422,29 @@ class Normalizer ():
         return data2
     
 #-------Spelling correction -------------------------------------------------    
-    
     def flev_rel (self, cand, token): 
         abs_edit_dist = editdistance.eval(cand, token)
         rel_edit_dist = abs_edit_dist / len(token)
         return rel_edit_dist
     
-    def run_low_emb_seq (self, word, inp, voc, model, bos, eos): 
+    def modelsim (self,cand,token, model): 
+        try: 
+            similarity = model.similarity(cand, token)
+        except KeyError: 
+            similarity = 0
+        return similarity
+
+    def run_low_emb (self, word, voc, model, w1 =0.4, w2= 0.6): 
         replacement = [' ',100]
         for token in voc: 
             sim1 = self.flev_rel(word, token) #lower is better
-            inp_nw = inp.replace(word, token)
-            sim2 = model.score(inp_nw, bos = bos, eos = eos)     
-            try: 
-                sim2_nw = 1 - (-1/sim2)
-            except ZeroDivisionError: 
-                sim2_nw = 0
-            sim = 0.4 * sim1 + 0.6 * sim2_nw            
+            sim2 = self.modelsim (word, token, model)
+            sim = w1 * sim1 + w2 * (1-sim2)
             if sim < replacement[1]:
                 replacement[1] = sim
                 replacement[0] = token
-            else: 
-                pass
         return replacement
+    
     
     def wrong_concatenation(self, token, token_freq): 
         best_plausibility = 0
@@ -484,32 +483,7 @@ class Normalizer ():
                 return token
     
     
-    def get_parameters_ngram2 (self, token, sent):  
-        sent2 = [i.lower() for i in sent]
-        i= sent2.index(token.lower())
-
-        if ((i-1) >= 0) and (len(sent)>(i+1)):
-            out = sent[(i-1):(i+2)]
-            bos = False
-            eos = False
-        elif ((i-1) < 0) and (len(sent)> (i+1)) :  #problem with beginning
-            bos = True
-            eos = False
-            out = sent[0:(i+2)]
-        elif ((i-1) >= 0) and (len(sent) <= (i)): #problem with end
-            bos = False
-            eos = True
-            out = sent[(i-1):]
-        else: #problem with both
-            out = sent
-            eos = True
-            bos = True 
-        d = TreebankWordDetokenizer()
-        token3 = d.detokenize(out)     
-        return token3, eos, bos
-
-    
-    def spelling_correction (self, post, min_rel_freq = 9, max_flev_rel = 0.68): 
+    def spelling_correction (self, post, min_rel_freq = 9, max_flev_rel = 0.76): 
         post2 = []
         cnt = 0 
         tagged_post = pos_tag(post)
@@ -521,18 +495,25 @@ class Normalizer ():
                 post2.append(token)
             else:            
                 if self.TRUE_WORD.fullmatch(token2) and (token2 != '-url-') and (token2 != '-') and (token2 != '--'):
+#                     if token2 in self.spelling_corrections:
+#                         correct = self.spelling_corrections[token2] 
+#                         if len(correct) >1: 
+#                             [post2.append(i) for i in correct]
+#                         else: 
+#                             post2.append(correct)
+#                         cnt +=1
+#                         self.replaced.append(token2)
+#                         self.replaced_with.append(correct)
 
                     if token2 in self.aspell_dict:
                         post2.append(token)
 
                     else:                   
-                        bit, bos, eos = self.get_parameters_ngram2(token2, post)
-
                         freq_word = self.token_freq[token2]
                         limit = freq_word * min_rel_freq
 
                         subset = [t[0] for t in self.token_freq_ordered2 if t[1]>= limit] 
-                        candidate = self.run_low_emb_seq(token2, bit, subset, self.model2, bos, eos)  
+                        candidate = self.run_low_emb(token2, subset, self.model2)  
 
                         if candidate[1] > max_flev_rel: 
                             x = self.wrong_concatenation(token2, self.token_freq)
@@ -567,6 +548,12 @@ class Normalizer ():
         thelist = list(tup)
         return thelist
 
+    
+    def load_model (self): 
+        filename = 'file://C://Users//dirksonar//Documents//Data//Stored_data//Corpora_from_others//HealthVec//Health_2.5mreviews.s200.w10.n5.v15.cbow.bin'
+        #'file:///data/dirksonar/Project1_lexnorm/int_val/Health_2.5mreviews.s200.w10.n5.v15.cbow.bin'
+        self.model2 = KeyedVectors.load_word2vec_format(filename, binary=True)
+
     def create_token_freq (self, data): 
         flat_data = [item for sublist in data for item in sublist]
         flat_data2 = [i.lower() for i in flat_data]
@@ -581,7 +568,7 @@ class Normalizer ():
         self.token_freq_ordered2 = [self.change_tup_to_list(m) for m in token_freq_ordered]
     
     def correct_spelling_mistakes(self, data):   
-        self.load_ngrammodel()
+        self.load_model()
         self.load_files ()
         self.total_cnt, self.replaced, self.replaced_with, self.spelling_corrections = self.initialize_files_for_spelling()
         self.TRUE_WORD = re.compile('[-a-z]+')  # Only letters and dashes  
@@ -592,6 +579,7 @@ class Normalizer ():
                 print(num)
             out.append(self.spelling_correction (m))
         return out, self.total_cnt, self.replaced, self.replaced_with, self.spelling_corrections
+    
     
 #--------Overall normalization function--------------------------------------
 
@@ -623,7 +611,7 @@ class Normalizer ():
     
 
 
-# In[5]:
+# In[15]:
 
 
 #example of usage 
@@ -635,6 +623,7 @@ test2 = Normalizer().normalize(test)
 
 #correct spelling mistakes - input must be tokenized
 test3 = Normalizer().correct_spelling_mistakes(test2)
+print(test3)
 
 
 # In[ ]:
