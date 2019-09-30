@@ -3,7 +3,9 @@
 Lexical normalization pipeline for medical patient forum data (Python 3). 
 
 author - AR Dirkson 
+
 date - 15-07-2019
+
 last update -- 30-9-2019
 
 This pipeline takes raw text data and performs: 
