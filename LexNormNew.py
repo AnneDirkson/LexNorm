@@ -57,6 +57,7 @@ class Normalizer ():
         self.short_expanse_dict = self.load_obj ('short_expansions_dict')
         self.cList = self.load_obj ('contractionslistone')
         self.cList2 = self.load_obj ('contractionslisttwo')
+        self.drugnames = self.load_obj ('fdadrugslist')
 
     def change_tup_to_list(self, tup): 
         thelist = list(tup)
@@ -505,6 +506,9 @@ class Normalizer ():
 
                     if token2 in self.aspell_dict:
                         post2.append(token)
+            
+                    elif token2 in self.drugnames: 
+                        post2.append(token)
 
                     else:                   
                         freq_word = self.token_freq[token2]
@@ -565,19 +569,24 @@ class Normalizer ():
         token_freq_ordered = self.token_freq.most_common ()
         self.token_freq_ordered2 = [self.change_tup_to_list(m) for m in token_freq_ordered]
     
-    def correct_spelling_mistakes(self, data):   
+    def correct_spelling_mistakes(self, data, different_token_freq = False):   
         self.load_model()
         self.load_files ()
         self.total_cnt, self.replaced, self.replaced_with, self.spelling_corrections = self.initialize_files_for_spelling()
         self.TRUE_WORD = re.compile('[-a-z]+')  # Only letters and dashes  
-        self.create_token_freq(data)
+        if different_token_freq == False: 
+            self.create_token_freq(data)
+        else: 
+            self.token_freq = self.load_obj('token_freq')
+            token_freq_ordered = self.token_freq.most_common ()
+            self.token_freq_ordered2 = [self.change_tup_to_list(m) for m in token_freq_ordered]
+            
         out = []
         for num, m in enumerate(data): 
             if num%1000 == 0: 
                 print(num)
             out.append(self.spelling_correction (m))
-        return out, self.total_cnt, self.replaced, self.replaced_with, self.spelling_corrections
-    
+        return out, self.total_cnt, self.replaced, self.replaced_with, self.spelling_corrections    
     
 #--------Overall normalization function--------------------------------------
 
