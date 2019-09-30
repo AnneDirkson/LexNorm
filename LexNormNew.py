@@ -52,11 +52,9 @@ class Normalizer ():
             return pickle.load(f, encoding='latin1')
         
     def load_files(self): 
-        self.ext_vocab2 = self.load_obj('vocabulary_spelling_unique')
         self.abbr_dict = self.load_obj ('abbreviations_dict')
         self.aspell_dict = self.load_obj ('aspell_dict_lower')       
         self.short_expanse_dict = self.load_obj ('short_expansions_dict')
-        self.drug_norm_dict = self.load_obj ('drug_normalize_dict')
         self.cList = self.load_obj ('contractionslistone')
         self.cList2 = self.load_obj ('contractionslisttwo')
 
