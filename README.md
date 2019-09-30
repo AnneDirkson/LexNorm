@@ -4,6 +4,7 @@ Lexical normalization pipeline for medical patient forum data (Python 3).
 
 author - AR Dirkson 
 date - 15-07-2019
+last update -- 30-9-2019
 
 This pipeline takes raw text data and performs: 
 - Removes URLs, email addresses and personal pronouns
@@ -18,7 +19,9 @@ This pipeline takes raw text data and performs:
 
 For more detail on the pipeline see: 
 
-Dirkson AR, Verberne S, Sarker A and Kraaij W (Under submission). Data-driven Lexical Normalization for Medical Social Media. Multimodal Technologies and Interaction [Text Mining in Complex Domains].
+Dirkson AR, Verberne S, Sarker A and Kraaij W (2019). Data-driven Lexical Normalization for Medical Social Media. Multimodal Technologies and Interaction, 3(3): 60. 
+
+See: https://www.mdpi.com/2414-4088/3/3/60
 
 Please refer to our article if you use this module.
 
