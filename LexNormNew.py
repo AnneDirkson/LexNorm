@@ -18,7 +18,7 @@
 # - Normalization of domain-specific (patient forum) abbreviations 
 # - Spelling correction 
 
-# In[12]:
+# In[1]:
 
 
 import pickle
@@ -38,7 +38,7 @@ from nltk.tokenize.treebank import TreebankWordDetokenizer
 from gensim.models import KeyedVectors
 
 
-# In[13]:
+# In[2]:
 
 
 class Normalizer (): 
@@ -595,9 +595,9 @@ class Normalizer ():
         posts0 = [str(m) for m in posts]
         posts1 = self.anonymize(posts0)
         print(posts1[0])
-   
+        posts2 = [i.replace ('’', "'") for i in posts1]
         self.prepareContractions()
-        posts3 = [self.expandContractions(m) for m in posts1]
+        posts3 = [self.expandContractions(m) for m in posts2]
 
         posts4 = [self.remove_apos(m) for m in posts3]
        
@@ -618,7 +618,7 @@ class Normalizer ():
     
 
 
-# In[15]:
+# In[4]:
 
 
 #example of usage 
@@ -631,6 +631,12 @@ test2 = Normalizer().normalize(test)
 #correct spelling mistakes - input must be tokenized
 test3 = Normalizer().correct_spelling_mistakes(test2)
 print(test3)
+
+
+# In[ ]:
+
+
+
 
 
 # In[ ]:
