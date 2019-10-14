@@ -10,7 +10,7 @@ last update -- 30-9-2019
 
 This pipeline takes raw text data and performs: 
 - Removes URLs, email addresses and personal pronouns 
-(optional, default = False, change anonymize to True in Normalizer().normalize (text))
+(optional, default = True, change anonymize to False in Normalizer().normalize (text) to skip)
 - Tokenization with NLTK 
 - Remove non-English posts (conservatively) using langid [3] 
 (optional, default = False, change remove_foreign to True in Normalizer().normalize(text))
