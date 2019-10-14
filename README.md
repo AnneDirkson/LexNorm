@@ -19,9 +19,9 @@ This pipeline takes raw text data and performs:
 - Normalization of generic abbreviations and slang 
 - Normalization of domain-specific (patient forum) abbreviations 
 
-- Spelling correction * 
+- Spelling correction ** 
 
-* In a seperate function: Normalizer().correct_spelling_mistakes() 
+** In a seperate function: Normalizer().correct_spelling_mistakes() 
 
 For more detail on the pipeline see: 
 
