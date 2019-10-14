@@ -9,15 +9,19 @@ date - 15-07-2019
 last update -- 30-9-2019
 
 This pipeline takes raw text data and performs: 
-- Removes URLs, email addresses and personal pronouns
-- Convert to lower-case
+- Removes URLs, email addresses and personal pronouns 
+(optional, default = True, change anonymize to False in Normalizer().normalize (text) to skip)
 - Tokenization with NLTK 
-- Remove non-English posts (conservatively) using langid [3]
+- Remove non-English posts (conservatively) using langid [3] 
+(optional, default = False, change remove_foreign to True in Normalizer().normalize(text))
 - British English to American English 
 - Normalization of contractions
 - Normalization of generic abbreviations and slang 
 - Normalization of domain-specific (patient forum) abbreviations 
-- Spelling correction 
+
+- Spelling correction ** 
+
+** In a seperate function: Normalizer().correct_spelling_mistakes() 
 
 For more detail on the pipeline see: 
 
@@ -29,24 +33,28 @@ Please refer to our article if you use this module.
 
 # Updates after article release
 
--- Drug names based on the FDA database of drugs and their active ingredients are now excluded from spelling correction to prevent common drug names replacing uncommon, similar drug names. 
+- Drug names based on the FDA database of drugs and their active ingredients are now excluded from spelling correction to prevent common drug names replacing uncommon, similar drug names. 
 
 (Data downloaded from: https://www.fda.gov/drugs/drug-approvals-and-databases/drugsfda-data-files) 
 
--- There is now the possibility to use a different token frequency than that of the data you are preprocessing for spelling correction. This may be useful if you have a larger dataset available than the one you are preprocessing. You need to use the different_token_freq = True option in the Normalizer().correct_spelling_mistakes() i.e. Normalizer().correct_spelling_mistakes(data, different_token_freq = True). Beforehand you will need to create the token frequency yourself and save it under obj_lex/token_freq.pkl
+- There is now the possibility to use a different token frequency than that of the data you are preprocessing for spelling correction. This may be useful if you have a larger dataset available than the one you are preprocessing. You need to use the different_token_freq = True option in the Normalizer().correct_spelling_mistakes() i.e. Normalizer().correct_spelling_mistakes(data, different_token_freq = True). Beforehand you will need to create the token frequency yourself and save it under obj_lex/token_freq.pkl
 
 To make a token frequency, you will need to use the Counter() on all the words in the data (also see the create_token_freq() function for help).
 
+- Added function for normalizing ’ to '. This was messing with the contraction expansion. 
 
 # Required files: 
-Prior to running this normalizer you will need to download the tetragram.binary in the N-gram-language-models file at https://data.mendeley.com/datasets/dwr4xn8kcv/3. These models have been developed by Abeed Sarker and Graciela Gonzalez- Hernandez [1]. Additionally, you will need the HealthVec model developed by Miftahutdinov et al. [4] which can be downloaded at: https://github.com/dartrevan/ChemTextMining/tree/master/word2vec
-Do not forget to change the path in the LexNormNew script to the right location for these files.
+Prior to running this normalizer you will need to download the tetragram_model.binary in the N-gram-language-models file at https://data.mendeley.com/datasets/dwr4xn8kcv/3. These models have been developed by Abeed Sarker and Graciela Gonzalez- Hernandez [1]. This model is too large to add to the GitHub repository. You should save this model in the obj_lex folder.
 
-The necessary in-house created abbreviations_dict is a dictionary of the domain-specific abbreviations, created based on a rare cancer forum together with a domain expert.
+The necessary in-house created abbreviations_dict is a dictionary of the domain-specific abbreviations, created based on a rare cancer forum together with a domain expert by our group. 
 
-no_slang_mod.txt, english_spellings.txt, 1_2letter_words.txt and american_spellings.txt are from Sarker et al. [2]. Can also be found at https://bitbucket.org/asarker/simplenormalizerscripts
+The following files are provided in the obj_lex folder and have been provided by other researchers:
 
-The aspell_dict_lower is a lowered version of word list 60 of the publicly available GNU Aspell dictionary. See: http://aspell.net/
+- This script makes use of the HealthVec model developed by Miftahutdinov et al. [4] which has been downloaded from: https://github.com/dartrevan/ChemTextMining/tree/master/word2vec
+
+- no_slang_mod.txt, english_spellings.txt, 1_2letter_words.txt and american_spellings.txt are from Sarker et al. [2]. Can also be found at https://bitbucket.org/asarker/simplenormalizerscripts
+
+- The aspell_dict_lower is a lowered version of word list 60 of the publicly available GNU Aspell dictionary. See: http://aspell.net/
 
 References: 
 
