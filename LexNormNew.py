@@ -552,8 +552,7 @@ class Normalizer ():
 
     
     def load_model (self): 
-        filename = 'file://C://Users//dirksonar//Documents//Data//Stored_data//Corpora_from_others//HealthVec//Health_2.5mreviews.s200.w10.n5.v15.cbow.bin'
-        #'file:///data/dirksonar/Project1_lexnorm/int_val/Health_2.5mreviews.s200.w10.n5.v15.cbow.bin'
+        filename = 'obj_lex//Health_2.5mreviews.s200.w10.n5.v15.cbow.bin'
         self.model2 = KeyedVectors.load_word2vec_format(filename, binary=True)
 
     def create_token_freq (self, data): 
@@ -590,12 +589,21 @@ class Normalizer ():
     
 #--------Overall normalization function--------------------------------------
 
-    def normalize (self, posts):
+    def normalize (self, posts, anonymize = True, remove_foreign = False):
         self.load_files ()
         posts0 = [str(m) for m in posts]
-        posts1 = self.anonymize(posts0)
-        print(posts1[0])
-        posts2 = [i.replace ('’', "'") for i in posts1]
+        if anonymize == True: 
+            posts1 = self.anonymize(posts0)
+            print(posts1[0])
+        else:
+            posts1 = posts0
+          
+        if remove_foreign == True: 
+            posts1b = self.remove_non_english(posts1)
+        else: 
+            posts1b = posts1
+        
+        posts2 = [i.replace ('’', "'") for i in posts1b]
         self.prepareContractions()
         posts3 = [self.expandContractions(m) for m in posts2]
 
@@ -627,16 +635,17 @@ test = ['my bff is 4ever', 'the colour of the moon is grey']
 
 #normalize but not correct spelling mistakes
 test2 = Normalizer().normalize(test)
+print(test2)
 
 #correct spelling mistakes - input must be tokenized
-test3 = Normalizer().correct_spelling_mistakes(test2)
+test3, total_cnt, replaced, replaced_with, spelling_corrections = Normalizer().correct_spelling_mistakes(test2)
 print(test3)
 
 
 # In[ ]:
 
 
-
+print('The total number of spelling mistakes found is: ' + str(sum(total_cnt)))
 
 
 # In[ ]:
