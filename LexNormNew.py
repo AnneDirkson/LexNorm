@@ -36,7 +36,7 @@ import kenlm
 from sklearn.metrics import recall_score, precision_score, f1_score, fbeta_score
 from nltk.tokenize.treebank import TreebankWordDetokenizer 
 from gensim.models import KeyedVectors
-
+import langid
 
 # In[2]:
 
